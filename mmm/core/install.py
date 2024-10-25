@@ -1,38 +1,56 @@
 import json
 
-from mmm.helpers import json_get, url_bulder
+from mmm.helpers import url_builder, tools
 from mmm.api import install
 from mmm.api.search import search_mod
-from mmm.helpers.data_parser import DataParser
+from mmm.data.parser import DataParser
+from mmm.config import Defaults
+
+config = Defaults()
 
 #TODO: facets ve limit için de implementasyon yapılacak
 def install_mod(mod_name, facets=None, limit=None):
-    version = json_get.minecraft_version()
-    loader = json_get.mod_loader()
-#!    print(f"Installing {mod_name} for Minecraft {version} with {loader} loader.")
+    version = config.get_version()
+    loader = config.get_loader()
 
-    url = url_bulder.search(mod_name, loader, version)
+    url = url_builder.search(mod_name, version, loader)
     data = search_mod(url)
-    if data is None:
+    
+    if not data or len(data["hits"]) == 0:
         print(f"{mod_name} not found.")
-        
-    else:
-        index = 1
-        
-        dp = DataParser(data=data)
-        decision = dp.to_prompt()
-        while decision == "skip" and index < len(data["hits"]):
+        return
+
+    dp = DataParser(data=data)
+    index = 0
+    mod_count = len(data["hits"])
+
+    while True:
+        print("\n")
+        mod_info = dp.to_prompt(index=index)
+        answer = input(f"{mod_info}").strip().lower()
+        decision = tools.yes_or_no(answer, navigate=True)
+
+        if answer == "q":
+            print("Installation aborted.")
+            return
+        elif decision == "prev":
+            index = (index - 1) % mod_count  # Önceki moda geç
+            print("\nReturning to previous mod...\n")
+        elif decision == "skip":
+            index = (index + 1) % mod_count  # Sonraki moda geç
             print("\nSkipping to next mod...\n")
-            decision = dp.to_prompt(index=index)
-            index += 1
-        if decision is True:
-            install.single(dp.slug, version, loader)
-        elif index == len(data["hits"]):
-            print("Mod not found.")
+        elif decision:
+            install.single(data["hits"][index]["latest_version"])
+            """ install.single(data["hits"][index]["slug"], loader, version) """
+            print(f"{mod_name} has been installed successfully.")
+            return
         else:
             print(f"Aborting installation of {mod_name}.")
+            return
+    
+
             
-            
+
         
         
         

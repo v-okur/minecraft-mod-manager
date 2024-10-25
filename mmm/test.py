@@ -39,5 +39,31 @@ data = json.loads("""{
   "total_hits": 22
 }""")
 
-# Fonksiyonu çağır
-to_prompt(data)
+
+
+def load_mods_json(file_path):
+    with open(file_path, "r") as file:
+        data = json.load(file)
+    return data
+
+# JSON dosyasına mod ekleme
+def add_mods_to_json(file_path, new_mods):
+    data = load_mods_json(file_path)
+    
+    #check if mod already exists
+    for new_mod in new_mods[:]:
+        for mod in data["mods"]:
+            if new_mod["name"] == mod["name"]:
+                print(f"{new_mod['name']} already exists in mods.json.")
+                new_mods.remove(new_mod)
+    
+    data["mods"].extend(new_mods)
+    
+    with open(file_path, "w") as file:
+        json.dump(data, file, indent=4)
+
+# Kullanım
+mods_json_path = "mods.json"  # mods.json dosya yolu
+new_mods = [{"name": "mod10"}, {"name": "mod200"}, {"name": "mod3"}, {"name": "mod4"}, {"name": "mod5"}, {"name": "mod6"}]  # Eklemek istediğiniz yeni modlar
+
+add_mods_to_json(mods_json_path, new_mods)

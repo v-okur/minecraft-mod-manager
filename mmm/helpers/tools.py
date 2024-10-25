@@ -1,23 +1,38 @@
+import json
 import os
 import re
-import json
+from colorama import Fore, init
 
+init(autoreset=True)
 
 def get_minecraft_version():
     current_dir = os.getcwd()
     parent_dir = os.path.abspath(os.path.join(current_dir, '..', '..'))
     minecraft_version = os.path.basename(parent_dir)
-    if re.search(r'(\d+)\.(\d+)(\.\d+)?', minecraft_version):
-        return minecraft_version
-    else:
-        return None
+    
+    match = re.search(r'(\d+)\.(\d+)(\.(\d+))?', minecraft_version)
+    
+    if match:
+        major = match.group(1)  
+        minor = match.group(2) 
+        
+        if match.group(4):  
+            patch = match.group(4)
+            if int(patch) >= 10:
+                patch = str(patch)[0]  
+            return f"{major}.{minor}.{patch}"
+        else:
+            return f"{major}.{minor}.1" 
+
+    return None 
+
     
 def initial_message():
-    print("\nWelcome to the mods.json setup wizard.")
-    print("This tool will guide you through creating a mods.json file for your Minecraft modpack.")
-    print("You only need to provide a Minecraft version and Mod Loader if you are not planning to distribute the modpack.")
-    print("For more detailed information, use `mmm init --help`.\n")
-    print("Once the setup is complete, use `mmm install <mod_name>` to install mods.")
+    print(f"\n#######  WELCOME TO THE MODS.JSON SETUP WIZARD  #######\n")
+    print(f"This tool will guide you through creating a mods.json file for your Minecraft modpack.")
+    print(f"{Fore.LIGHTGREEN_EX}You only need to provide a Minecraft version and Mod Loader if you are not planning to distribute the modpack.")
+    print(f"{Fore.LIGHTYELLOW_EX}For more detailed information, use `mmm init --help`.\n")
+    print(f"{Fore.LIGHTCYAN_EX}Once the setup is complete, use `mmm install <mod_name>` to install mods.")
     print("Press Ctrl+C at any time to exit this wizard.\n")
     
 def confirm_mods_json(json_data):
@@ -37,20 +52,22 @@ def confirm_overwrite():
     else:
         return True
     
-def yes_or_no(answer, type=None):
-    
+def yes_or_no(answer, navigate=False):
     valid_answers = ["y", "n", ""]
-    prompt = "Please enter 'y' or 'n': "
-    if type == "next":
-        valid_answers.append("s")
-        prompt = "Please enter 'y', 'n', or 's':"
+    if navigate:
+        valid_answers.extend(["s", "p"])
+
+    
+    prompt = "Please enter 'y' or 'n': " if not navigate else "Please enter valid option:"
     
     while answer.strip().lower() not in valid_answers:
         answer = input(prompt).strip().lower()
-    
+
     if answer == "s":
         return "skip"
-    
+    elif answer == "p":
+        return "prev"
+
     return answer in ["y", ""]
 
 

@@ -23,6 +23,7 @@ tests/__pycache__/
 .idea/
 *.swp
 *.swo
+*.json
 
 # Other files
 *.pyc

@@ -5,24 +5,21 @@ class CLIError(Exception):
         self.message = message
         super().__init__(self.message)
 
-class ModsJsonNotFound(Exception):
+def ModsJsonNotFound(message='mods.json not found. Please run `mmm init` to create a new mods.json file.'):
     """Raised when the mods.json file is not found."""
+    print(message)
+    
+def VersionKeyNotFound(message='mods.json is corrupted. Please run `mmm init` to create a new mods.json file or fix the existing one.'):
+    """Raised when the mods.json file is not found."""
+    print(message)
 
-    def __init__(self, message='mods.json not found. Please run `mmm init` to create a new mods.json file or fix the existing one.'):
-        self.message = message
-        super().__init__(self.message)
-
-class ModsJsonCorrupted(Exception):
+def ModsJsonCorrupted(additional_message=''):
     """Raised when the mods.json file is corrupted."""
+    message = 'mods.json is corrupted. Please run `mmm init` to create a new mods.json file or fix the existing one.'
+    message = additional_message + '\n' + message
+    print(message)
 
-    def __init__(self, additional_message=''):
-        message = 'mods.json is corrupted. Please run `mmm init` to create a new mods.json file or fix the existing one.'
-        self.message = additional_message + '\n' + message
-        super().__init__(self.message)
-
-class InvalidLoader(Exception):
+def InvalidLoader( message='Invalid loader. Please specify a valid loader.'):
     """Raised when an invalid loader is specified."""
-
-    def __init__(self, message='Invalid loader. Please specify a valid loader.'):
-        self.message = message
-        super().__init__(self.message)
+    print(message)
+    
