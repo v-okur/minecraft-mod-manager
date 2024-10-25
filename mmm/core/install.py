@@ -8,7 +8,7 @@ from mmm.config import Defaults
 
 config = Defaults()
 
-#TODO: facets ve limit için de implementasyon yapılacak
+#TODO: facets and limit implementation
 def install_mod(mod_name, facets=None, limit=None):
     version = config.get_version()
     loader = config.get_loader()
@@ -34,10 +34,10 @@ def install_mod(mod_name, facets=None, limit=None):
             print("Installation aborted.")
             return
         elif decision == "prev":
-            index = (index - 1) % mod_count  # Önceki moda geç
+            index = (index - 1) % mod_count 
             print("\nReturning to previous mod...\n")
         elif decision == "skip":
-            index = (index + 1) % mod_count  # Sonraki moda geç
+            index = (index + 1) % mod_count 
             print("\nSkipping to next mod...\n")
         elif decision:
             install.single(data["hits"][index]["latest_version"])

@@ -1,8 +1,7 @@
 
 class Defaults:
-    _instance = None  # Singleton örneği için sınıf değişkeni
+    _instance = None
 
-    # Sabitler
     DEFAULT_MODPACK_NAME = 'minecraft_modpack'
     DEFAULT_VERSION = '1.20.1'
     SUPPORTED_VERSIONS = [
@@ -27,7 +26,7 @@ class Defaults:
         if cls._instance is None:
             cls._instance = super(Defaults, cls).__new__(cls)
             cls._instance.version = cls.DEFAULT_VERSION
-            cls._instance.loader = None  # Başlangıçta loader seçilmedi
+            cls._instance.loader = None  
         return cls._instance
 
     def set_config(self, version, loader):

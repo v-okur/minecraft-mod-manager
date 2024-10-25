@@ -1,31 +1,25 @@
-# Python bytecode files
 __pycache__/
 *.py[cod]
 
-# Virtual environment
 venv/
 .env
 
-# Distribution / packaging
 build/
 dist/
 *.egg-info/
 *.egg
 
-# Test and coverage
 .coverage
 tests/__pycache__/
 *.cover
 *.log
 
-# IDE / Editor files
 .vscode/
 .idea/
 *.swp
 *.swo
 *.json
-
-# Other files
+*.jar
 *.pyc
 *.pyo
 *.pyd

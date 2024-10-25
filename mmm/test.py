@@ -1,7 +1,6 @@
 import json
 from colorama import Fore, Style, init
 
-# Colorama'yi başlat
 init(autoreset=True)
 
 def to_prompt(data):
@@ -12,7 +11,6 @@ def to_prompt(data):
     display_data["description"] = data["hits"][0]["description"]
     display_data["downloads"] = data["hits"][0]["downloads"]
 
-    # Renkli çıktı
     print(f"{Fore.YELLOW}Project ID: {Fore.WHITE}{display_data['project_id']}")
     print(f"{Fore.YELLOW}Title: {Fore.WHITE}{display_data['title']}")
     print(f"{Fore.YELLOW}Author: {Fore.WHITE}{display_data['author']}")
@@ -21,7 +19,6 @@ def to_prompt(data):
     print(f"{Fore.GREEN}Is this the mod you want to install? {Fore.WHITE}")
     print(f"{Fore.GREEN}[y]{Fore.WHITE}es / {Fore.RED}[n]{Fore.WHITE}o / {Fore.CYAN}[s]{Fore.WHITE}how next mod")
 
-# json verisi
 data = json.loads("""{
   "hits": [
     {
@@ -46,11 +43,9 @@ def load_mods_json(file_path):
         data = json.load(file)
     return data
 
-# JSON dosyasına mod ekleme
 def add_mods_to_json(file_path, new_mods):
     data = load_mods_json(file_path)
     
-    #check if mod already exists
     for new_mod in new_mods[:]:
         for mod in data["mods"]:
             if new_mod["name"] == mod["name"]:
@@ -62,8 +57,7 @@ def add_mods_to_json(file_path, new_mods):
     with open(file_path, "w") as file:
         json.dump(data, file, indent=4)
 
-# Kullanım
-mods_json_path = "mods.json"  # mods.json dosya yolu
+mods_json_path = "mods.json" 
 new_mods = [{"name": "mod10"}, {"name": "mod200"}, {"name": "mod3"}, {"name": "mod4"}, {"name": "mod5"}, {"name": "mod6"}]  # Eklemek istediğiniz yeni modlar
 
 add_mods_to_json(mods_json_path, new_mods)

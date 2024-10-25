@@ -6,13 +6,10 @@ class ModContext:
         self.loader = loader or self._default_loader()
 
     def _default_version(self):
-        # Sınıf içinde versiyonu varsayılan olarak alabilirsiniz
-        return "1.20.1"  # veya başka bir varsayılan değer
+        return "1.20.1" 
 
     def _default_loader(self):
-        # Sınıf içinde loader’ı varsayılan olarak ayarlayabilirsiniz
-        return "fabric"  # veya başka bir varsayılan loader
-
+        return "fabric" 
     def set_version_and_loader(self, version, loader):
         self.version = version
         self.loader = loader

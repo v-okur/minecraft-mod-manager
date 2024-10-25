@@ -4,12 +4,11 @@ import mmm.exceptions.general as ex
 from mmm.validators import version_val, loader_val
 
 def load_json(file_path="mods.json"):
-    """JSON dosyasını yükler. Dosya boşsa veya mevcut değilse boş bir dict döner."""
+    """Loads the JSON file. Returns an empty dict if the file is empty or does not exist."""
     if not os.path.exists(file_path):
         ex.ModsJsonNotFound()
         exit()
 
-    # Dosyanın boş olup olmadığını kontrol et
     if os.stat(file_path).st_size == 0:
         return {}
 
@@ -17,11 +16,10 @@ def load_json(file_path="mods.json"):
         try:
             return json.load(f)
         except json.JSONDecodeError:
-            # Dosya geçerli bir JSON değilse veya boşsa boş bir dict döndür
             print("Invalid JSON file")
             
 def validate_version(data):
-    """Minecraft versiyonunun geçerli olup olmadığını kontrol eder."""
+    """Checks if the Minecraft version is valid."""
     if "minecraft_version" not in data:
         ex.VersionKeyNotFound()
         exit()
@@ -30,7 +28,7 @@ def validate_version(data):
         print("Invalid version")
 
 def validate_loader(data):
-    """Mod loader'ın geçerli olup olmadığını kontrol eder."""
+    """Checks if the mod loader is valid."""
     if "mod_loader" not in data:
         ex.ModsJsonCorrupted("mod_loader key not found.")
         exit()
@@ -40,7 +38,7 @@ def validate_loader(data):
         exit()
 
 def validate_mods(data):
-    """Mods anahtarının varlığı ve tipini kontrol eder."""
+    """Checks the existence and type of the mods key."""
     if "mods" not in data:
         ex.ModsJsonCorrupted("Mods key not found.")
         exit()
@@ -50,7 +48,7 @@ def validate_mods(data):
 
 def validate(validation_type):
     data=load_json()
-    """Geçerli validation type'a göre doğrulamaları çalıştırır."""
+    """Runs validations according to the specified validation type."""
     if validation_type in ["install", "update"]:
         validate_version(data)
         validate_loader(data)
