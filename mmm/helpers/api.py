@@ -1,8 +1,8 @@
-
-import mmm.helpers.tools as tools
-import mmm.helpers.download as download
+""" 
+import ..helpers.tools as tools
+import ..helpers.download as download
 import requests
-from mmm.config import Color
+from ..config import Color
 import json
 
 def fetch_mod_data(mod_name, loader, version, api="modrinth"):
@@ -50,3 +50,4 @@ def download_mod(slug, version, loader):
     
     file = foundmod["files"][0]["url"]
     download.download_file(file)
+ """

@@ -1,6 +1,7 @@
 import json
 
-from mmm.helpers.json_get import load_mods_json
+
+from ..helpers.json_get import load_mods_json
 
 def add_mod_to_json(new_mod):
     data = load_mods_json()

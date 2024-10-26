@@ -1,10 +1,10 @@
 import requests
-from urllib.parse import urlparse
+from ..config import InstallContext
 
-def download_file(context):
+def download_file(context: InstallContext) -> None:
     
-    url = context.mod_data["files"][0]["url"]
-    filename = urlparse(context.mod_data["files"][0]["filename"])
+    url = context.project_data.files[0].url
+    filename = context.project_data.files[0].filename
     
     try:
         response = requests.get(url, stream=True)

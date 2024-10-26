@@ -1,5 +1,5 @@
-from mmm.helpers import confirm_overwrite, initial_message, get_minecraft_version, confirm_mods_json
-from mmm.validators import loader_val, version_val
+from ..helpers import confirm_overwrite, initial_message, get_minecraft_version, confirm_mods_json
+from ..validators import loader_val, version_val
 import json
 
 def init(default, force, loader, mc_version):

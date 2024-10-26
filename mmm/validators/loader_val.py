@@ -1,6 +1,6 @@
 import json
-from mmm.config import Defaults
-import mmm.exceptions.general as ex
+from ..config import Defaults
+from ..exceptions import general as ex
 
 
 def loader_val(loader):

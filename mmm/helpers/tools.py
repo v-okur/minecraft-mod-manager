@@ -1,6 +1,9 @@
 import json
 import os
 import re
+import sys
+import termios
+import tty
 from colorama import Fore, init
 
 init(autoreset=True)
@@ -43,10 +46,12 @@ def confirm_mods_json(json_data):
 def confirm_overwrite():
     if os.path.exists("mods.json"):
         print("mods.json already exists. You can use --force or -f to overwrite it.")
-        overwrite_confirmation = input("Are you sure you want to overwrite it? (y/n)")
+        print("Are you sure you want to overwrite it? (y/n)")
+        overwrite_confirmation = get_input()
         first_confirmation = yes_or_no(overwrite_confirmation)
         if first_confirmation:
-            final_confirmation = input("You will lose all of your mod info in your mods.json file. Are you really sure? (y/n)")
+            print("You will lose all of your mod info in your mods.json file. Are you really sure? (y/n)")
+            final_confirmation = get_input()
             final_decision = yes_or_no(final_confirmation)
             return final_decision
     else:
@@ -55,23 +60,55 @@ def confirm_overwrite():
 def yes_or_no(answer, navigate=False):
     valid_answers = ["y", "n", ""]
     if navigate:
-        valid_answers.extend(["s", "p"])
-
+        valid_answers.extend(["a", "d"])
     
-    prompt = "Please enter 'y' or 'n': " if not navigate else "Please enter valid option:"
+    prompt = "Please enter 'y' or 'n': " if not navigate else ""
     
     while answer.strip().lower() not in valid_answers:
-        answer = input(prompt).strip().lower()
+        print(prompt)
+        answer = get_input().strip().lower()
 
-    if answer == "s":
-        return "skip"
-    elif answer == "p":
+    if answer == "d":
+        return "next"
+    elif answer == "a":
         return "prev"
 
     return answer in ["y", ""]
 
+import sys
+import termios
+import tty
 
-        
+def yes_or_no(answer, navigate=False):
+    valid_answers = ["y", "n", ""]
+    if navigate:
+        valid_answers.extend(["d", "c"])
+    prompt = "Please enter 'y' or 'n': "
+    
+    while answer.strip().lower() not in valid_answers:
+        if not navigate:
+            print(prompt)
+        answer = get_input().strip().lower()
 
+    if answer == "c":
+        return "next"
+    elif answer == "d":
+        return "prev"
+
+    return answer in ["y", ""]
+
+def get_input():
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)    
+    try:
+        tty.setcbreak(fd) 
+        ch = sys.stdin.read(1)
+
+        if ch == '\n':
+            return ""
+        print(ch)
+        return ch
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
         
 

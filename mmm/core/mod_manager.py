@@ -1,11 +1,10 @@
-import json
-import os
-from mmm.validators.json_validators import validate
-from mmm.core.install import install_mod, install_mods
-from mmm.core import init
-from mmm.config import Defaults
-from mmm.helpers.json_get import mod_loader, minecraft_version
-from mmm.config import InstallContext
+from ..validators.json_validators import validate
+from .install import install_mod, install_mods
+from .init import init  # Adjusted import path for init
+from ..config import Defaults
+from ..helpers.json_get import mod_loader, minecraft_version
+from ..config import InstallContext
+from typing import List
 
 
 config = Defaults()
@@ -13,28 +12,27 @@ config = Defaults()
 
 class ModManager:
     
-    def __init__(self):
-        self.mods_file = "mods.json"
 
-    def list_mods(self, installed):
+    def list_mods(self, installed: bool) -> None:
         print("Listing mods...")
 
-    def init_handler(self, default, force, loader, mc_version):
+    def init_handler(self, default: bool, force: bool, loader: str, mc_version: str) -> None:
         init(default, force, loader, mc_version)
 
-    def install_handler(self, mod_names, confirmall):
+    def install_handler(self, mod_names: List[str], confirmall: bool, limit: int) -> None:
         """Mod yükleme işlevi."""
 
-        #* Validation for install command*#    
         validate(validation_type="install")
         
-        version = minecraft_version()
-        loader = mod_loader()        
+        version: str = minecraft_version()
+        loader: str = mod_loader()        
+        
         config.set_config(version=version, loader=loader)
             
-        if len(mod_names) == 0:
-            install_mods(confirmall)
-        else:
-            for mod in mod_names:
-                context = InstallContext(mod, confirmall)
+        """ if len(mod_names) == 0:
+            install_mods(confirmall) """
+        
+        for mod in mod_names:
+                context: InstallContext = InstallContext(mod, confirm_all=confirmall, limit=limit)
                 install_mod(context)
+                

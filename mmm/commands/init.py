@@ -1,5 +1,5 @@
 import click
-from mmm.core.mod_manager import ModManager
+from ..core.mod_manager import ModManager
 
 manager = ModManager()
 

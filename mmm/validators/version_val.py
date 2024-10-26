@@ -1,4 +1,4 @@
-from mmm.config import Defaults
+from ..config import Defaults
 
 def version_val(version):
     if version in Defaults.SUPPORTED_VERSIONS:

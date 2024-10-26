@@ -1,5 +1,5 @@
 import json
-from mmm.exceptions import general as ex
+from ..exceptions import general as ex
 
 def minecraft_version():
     try:
