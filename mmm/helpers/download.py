@@ -1,6 +1,11 @@
 import requests
+from urllib.parse import urlparse
 
-def download_file(url, filename):
+def download_file(context):
+    
+    url = context.mod_data["files"][0]["url"]
+    filename = urlparse(context.mod_data["files"][0]["filename"])
+    
     try:
         response = requests.get(url, stream=True)
         response.raise_for_status()  

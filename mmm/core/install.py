@@ -9,13 +9,11 @@ from mmm.config import Defaults
 config = Defaults()
 
 #TODO: facets and limit implementation
-def install_mod(mod_name, facets=None, limit=None):
-    version = config.get_version()
-    loader = config.get_loader()
+def install_mod(context):
 
-    url = url_builder.search(mod_name, version, loader)
+    mod_name = context.mod_name
+    url = url_builder.search(context)
     data = search_mod(url)
-    
     if not data or len(data["hits"]) == 0:
         print(f"{mod_name} not found.")
         return
@@ -25,7 +23,7 @@ def install_mod(mod_name, facets=None, limit=None):
     mod_count = len(data["hits"])
 
     while True:
-        print("\n")
+        
         mod_info = dp.to_prompt(index=index)
         answer = input(f"{mod_info}").strip().lower()
         decision = tools.yes_or_no(answer, navigate=True)
@@ -40,13 +38,12 @@ def install_mod(mod_name, facets=None, limit=None):
             index = (index + 1) % mod_count 
             print("\nSkipping to next mod...\n")
         elif decision:
-            install.single(data["hits"][index]["latest_version"])
-            """ install.single(data["hits"][index]["slug"], loader, version) """
-            print(f"{mod_name} has been installed successfully.")
+            install.single(data["hits"][index]["latest_version"], context)
             return
         else:
             print(f"Aborting installation of {mod_name}.")
             return
+    
     
 
             

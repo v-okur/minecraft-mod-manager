@@ -8,4 +8,4 @@ manager = ModManager()
 def install(mod_names, confirmall):
     """Install one or more mods."""
     
-    manager.install_handler(mod_names)
+    manager.install_handler(mod_names, confirmall)
