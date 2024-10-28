@@ -1,6 +1,9 @@
 from ..helpers import confirm_overwrite, initial_message, get_minecraft_version, confirm_mods_json
 from ..validators import loader_val, version_val
+from ..config import Defaults
 import json
+
+config = Defaults()
 
 def init(default, force, loader, mc_version):
     if force:
@@ -10,7 +13,7 @@ def init(default, force, loader, mc_version):
         if not confirm:
             print('Aborting setup. mods.json already exists.')
             exit()
-    v = get_minecraft_version() or mc_version
+    v = get_minecraft_version() if not default else config.LATEST_VERSION
     initial_message()
     modpack_name = input('modpack name: (default: minecraft_modpack) ') or 'minecraft_modpack'
     if v is not None:

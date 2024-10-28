@@ -10,6 +10,7 @@ manager = ModManager()
 @click.option('--default', '-d', is_flag=True, help='Use default values.')
 def init(default, force, loader, version):
     """Initialize a new modpack."""
+    print(default)
     manager.init_handler(default, force, loader, version)
     
     

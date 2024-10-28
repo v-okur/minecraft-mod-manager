@@ -12,12 +12,12 @@ class InstallContext:
         self.mode = mode
         self.limit = limit
         self.offset = offset
-        
         self.index = index
         
         self.project_id = None
         self.search_data: Search.Main = None
         self.project_data: Project.Main = None
+        self.game_versions = []  # Versiyonları burada saklayacağız
     
     def set_version_and_loader(self, version, loader):
         self.version = version
@@ -28,6 +28,7 @@ class InstallContext:
         
     def set_project_data(self, data):
         self.project_data = data
+        self.game_versions = self.project_data.game_versions  # game_versions ekleniyor
     
     def set_mode(self, mode):
         self.mode = mode
@@ -37,8 +38,15 @@ class InstallContext:
         
     def to_facets(self):        
         fields = {
+            "project_id": self.project_id,
             "versions": self.version,
-            "categories": self.loader,
-            "project_id": self.project_id
+            "categories": self.loader
         }
-        return [f'["{key}={value}"]' for key, value in fields.items() if value is not None]
+        
+        # Game version'ları facets'e ekleme
+        facets = [[f'{key}={value}'] for key, value in fields.items() if value is not None]
+        if self.game_versions:
+            version_facets = [f'versions={v}' for v in self.game_versions]
+            facets.append(version_facets)
+        
+        return facets

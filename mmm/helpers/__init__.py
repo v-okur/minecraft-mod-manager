@@ -1,1 +1,1 @@
-from .tools import confirm_mods_json, get_minecraft_version, initial_message, confirm_overwrite, get_input, yes_or_no
+from .tools import confirm_mods_json, get_minecraft_version, initial_message, confirm_overwrite, get_input, yes_or_no, clear_screen

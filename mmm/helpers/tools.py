@@ -106,9 +106,10 @@ def get_input():
 
         if ch == '\n':
             return ""
-        print(ch)
         return ch
     finally:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
         
 
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')

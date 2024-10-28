@@ -5,7 +5,7 @@ manager = ModManager()
 @click.command(name='install')
 @click.argument('mod_names', nargs=-1, required=False)
 @click.option('--confirmall', '-y', is_flag=True, help='Confirm all installations.')
-@click.option('--limit', '-l', help='Limit the number of mods to install.')
+@click.option('--limit', '-l', type=int, help='Limit the number of mods to search.')
 
 def install(mod_names, confirmall, limit):
     """Install one or more mods."""

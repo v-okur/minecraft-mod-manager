@@ -1,8 +1,5 @@
 import click
-from .commands import init
-from .commands import install
-from .commands import list
-from .commands import update
+from .commands import init, install, list, update, search
 
 @click.group()
 def cli():
@@ -13,6 +10,7 @@ cli.add_command(list)
 cli.add_command(init)
 cli.add_command(install)
 cli.add_command(update)
+cli.add_command(search)
     
     
     

@@ -17,6 +17,8 @@ def load_json(file_path: str = "mods.json"):
             return json.load(f)
         except json.JSONDecodeError:
             print("Invalid JSON file")
+            ex.ModsJsonCorrupted()
+            exit()
             
 def validate_version(data: dict) -> None:
     """Checks if the Minecraft version is valid."""
